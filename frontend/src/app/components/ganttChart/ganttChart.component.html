@@ -1,0 +1,39 @@
+<div class="gantt-container" #gantt>
+  <!-- Message when there are no exhibitions -->
+  <div *ngIf="noExhibitions">
+    <h1>Overview of exhibition timelines</h1>
+  </div>
+  
+  <!-- Overview of exhibitions for the selected cluster with the date range -->
+  <div *ngIf="!noExhibitions && !selectedArtist && startYear && startMonth && endYear && endMonth">
+    <h1>
+      Overview of exhibitions of selected cluster
+      from {{ startMonth }} {{ startYear === endYear ? 'to ' + endMonth + ' ' + startYear : startYear + ' to ' + endMonth + ' ' + endYear }}
+    </h1>
+  </div>
+  
+  <!-- Exhibitions for the selected artist with the date range -->
+  <div *ngIf="!noExhibitions && selectedArtist && startYear && startMonth && endYear && endMonth">
+    <h1>
+      Exhibitions of {{ selectedArtist.firstname }} {{ selectedArtist.lastname }}
+      from {{ startMonth }} {{ startYear === endYear ? 'to ' + endMonth + ' ' + startYear : startYear + ' to ' + endMonth + ' ' + endYear }}
+    </h1>
+  </div>
+
+  <!-- Legend and loading spinner -->
+  <div #legend class="legend-container"></div>
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="loading-spinner"></div>
+  </div>
+
+  <!-- Instructional message when there are no exhibitions to display -->
+  <p *ngIf="noExhibitions">
+    Click and drag over the bars in the overview of the exhibitions to display the timeline of these exhibitions.
+  </p>
+
+  <!-- SVG container for the Gantt chart -->
+  <figure class="gantt-svg-container"></figure>
+
+  <!-- Tooltip container for hover effects -->
+  <div #tooltip class="tooltip" style="display: none;"></div>
+</div>

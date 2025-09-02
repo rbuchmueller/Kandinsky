@@ -1,0 +1,20 @@
+<div class="exhibition-container" #exhibition>
+  
+  <ng-container *ngIf="!isLoading">
+    <h1 *ngIf="!selectedArtists">Overview of all exhibitions of all {{ allArtists.length }} artists</h1>
+    <h1 *ngIf="selectedArtists && selectedArtists.length > 1 && selectedCluster && selectedCluster.length == selectedArtists.length">Overview of exhibitions of artists in the selected cluster</h1>
+    <h1 *ngIf="selectedArtists && selectedArtists.length > 1 && selectedCluster && selectedCluster.length > selectedArtists.length">Overview of exhibitions of selected artists</h1>
+    <h1 *ngIf="selectedArtists && selectedArtists.length === 1">
+      Exhibitions of {{ selectedArtists[0].firstname }} {{ selectedArtists[0].lastname }}
+    </h1>
+
+  </ng-container>
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="loading-spinner"></div>
+  </div>
+      <figure class="exhibition-svg-container"></figure>
+      <div #tooltip class="tooltip" style="display: none;"></div>
+
+  <!-- Display loading indicator if data is still loading -->
+
+</div>

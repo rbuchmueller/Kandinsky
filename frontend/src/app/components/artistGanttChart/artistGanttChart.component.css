@@ -1,0 +1,34 @@
+.artist-gantt-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.artist-gantt-svg-container {
+    flex: 1; /* Takes the remaining height */
+    width: 100%;
+    height: 100%; /* Ensure it takes full height of the flex item */
+}
+
+.artist-gantt-container, .artist-gantt-svg-container, svg {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.noMargin {
+    margin-bottom: 0px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+#legend-container {
+    display: inline-block;
+}

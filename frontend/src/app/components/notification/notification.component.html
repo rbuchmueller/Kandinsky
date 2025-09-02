@@ -1,0 +1,7 @@
+<div class="notification" *ngIf="message">
+  <button class="close-btn" (click)="close()">×</button>
+  <div class="title" *ngIf="title" [innerHTML]="title"></div> <!-- Display the title with line break -->
+  <div class="smallTitle" *ngIf="smallTitle" [innerHTML]="smallTitle"></div> <!-- Display the title with line break -->
+
+  <span class="msg">{{ message }}</span>
+</div>

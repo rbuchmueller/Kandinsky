@@ -1,0 +1,95 @@
+#map {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position:relative;
+  }
+
+  /* Greyed out slider when disabled */
+.slider.disabled {
+  background-color: grey;
+  cursor: not-allowed;
+}
+  
+
+  /* Style for the toggle container */
+.toggle-container {
+  display: flex;
+  align-items: center;
+  margin-top:0.1vw;
+  margin-bottom:0.1vw;
+}
+
+.map-label {
+  margin-left: 0.25vw; /* Spacing between the toggle and the label */
+  font-size: 0.75vw;
+  font-weight:600;
+  margin-top:0.1vw;
+  margin-bottom:0.1vw;
+}
+
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 2vw;   /* 15px converted to vw */
+  height: 2vh;  /* 8.5px converted to vw */
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #e5aeff;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 0.7vw;  /* 6.5px converted to vw */
+  width: 0.7vw;   /* 6.5px converted to vw */
+  left: 0.15vw;    /* 1px converted to vw */
+  bottom: 0.15vw;  /* 1px converted to vw */
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #7e24c7;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #7e24c7;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(0.9vw);
+  -ms-transform: translateX(0.8vw);
+  transform: translateX(1vw);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 1.2vw;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}

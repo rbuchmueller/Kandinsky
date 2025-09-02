@@ -1,0 +1,94 @@
+<!-- <h1>Possible user changes:</h1> -->
+<div class="dropdown-container">
+
+  <div class="dropdown-group">
+    <label for="dropdown" class="dropdown-label">Select ranking category</label>
+    <select class="dropdown" [(ngModel)]="selectRanking" (change)="onRankingChange($event)">
+      <option *ngFor="let option of RankingOptions" [value]="option.value">{{ option.label }}</option>
+    </select>
+  </div>
+  
+  <div class="dropdown-group">
+    <label for="dropdown" class="dropdown-label">Select country category ✧</label>
+    <select class="dropdown" [(ngModel)]="selectedSunburst" (change)="onSunburstChange($event)">
+      <option *ngFor="let option of SunburstOptions" [value]="option.value"       [disabled]="!isModernMap && option.value === 'nationality'">
+{{ option.label }}</option>
+    </select>
+  </div>
+  
+  
+
+  <div class="dropdown-group">
+    <label for="dropdown" class="dropdown-label">Select node size</label>
+    <select class="dropdown" (change)="onSizeChange($event)">
+      <option *ngFor="let option of SizeOptions" [value]="option.value">{{ option.label }}</option>
+    </select>
+  </div>
+
+<!--   <div class="dropdown-group">
+    <label for="dropdown" class="dropdown-label">Select inner order:</label>
+    <select class="dropdown" (change)="onOrderChange($event)">
+      <option *ngFor="let option of OrderOptions" [value]="option">{{ option }}</option>
+    </select>
+  </div> -->
+
+  <!-- 
+  <div class="dropdown-group">
+    <label for="dropdown" class="dropdown-label">Select edge thickness:</label>
+    <select class="dropdown" (change)="onThicknessChange($event)">
+      <option *ngFor="let option of ThicknessOptions" [value]="option">{{ option }}</option>
+    </select>
+  </div>
+-->
+  <!-- Addition of ngx-slider for selecting range -->
+  
+  <div class="dropdown-group">
+    <label class="dropdown-label">Select the range of exhibited artworks to filter artists</label>
+    <div class="dropdown-group2">
+      <div class="custom-slider">
+        <ngx-slider [(value)]="range[0]" [(highValue)]="range[1]" [options]="options" (valueChange)="onRangeSliderChange()"></ngx-slider>
+      </div>
+      <div class="checkbox-group">
+        <ng-container *ngIf="!isLoadingRange; else loadingSpinnerRange">
+          <input type="checkbox" id="confirmRange" [(ngModel)]="useRange" (change)="onRangeChange()" hidden/>
+          <label for="confirmRange" class="custom-checkbox">
+            <i class="fas fa-check" *ngIf="useRange"></i>
+          </label>
+        </ng-container>
+        <ng-template #loadingSpinnerRange>
+          <div class="spinner"></div>
+        </ng-template>
+      </div>
+    </div>
+    <div *ngIf="isLoadingRange" class="green-label">Loading artists... Please wait while we retrieve the artists within the selected range.</div>
+    <div *ngIf="rangeChanged" class="green-label">Click the checkbox on the right to apply the selected range.</div>
+  </div>
+  
+  <div class="dropdown-group">
+    <label class="dropdown-label">Select the number of artist clusters</label>
+    <div class="dropdown-group2">
+      <div class="custom-slider" [class.disabled]="isLoadingRange">
+        <ngx-slider [(value)]="k" [options]="kOptions" (valueChange)="onKSliderChange()"></ngx-slider>
+      </div>
+      <div class="checkbox-group">
+        <ng-container *ngIf="!isLoadingK; else loadingSpinnerK">
+          <input type="checkbox" id="confirmK" [(ngModel)]="useK" (change)="onKChange()" [disabled]="isLoadingRange" hidden/>
+          <label for="confirmK" class="custom-checkbox" [class.disabled]="isLoadingRange">
+            <i class="fas fa-check" *ngIf="useK"></i>
+          </label>
+        </ng-container>
+        <ng-template #loadingSpinnerK>
+          <div class="spinner"></div>
+        </ng-template>
+      </div>
+    </div>
+    <div *ngIf="isLoadingK" class="green-label">Clustering artists... Please wait while we cluster the artists.</div>
+    <div *ngIf="showK" class="info-text">Please select the number of clusters for {{ numberOfArtists }} artists.</div> <!-- before updating the visualization -->
+    <div *ngIf="kChanged" class="green-label">Click the checkbox on the right to apply the changes.</div>
+  </div>
+</div>
+ 
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">

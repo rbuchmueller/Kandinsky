@@ -1,0 +1,8 @@
+<div class="matrix-container" #matrix>
+  <h1 >{{ getTitle() }}</h1>
+  <figure class="matrix-svg-container"></figure>
+  <div id="tooltip" class="tooltip" style="display: none;"></div>
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="loading-spinner"></div>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+<div class="toggle-container">
+    <label 
+      class="switch" 
+      (mouseover)="showToggleTooltip($event)" 
+      (mouseout)="hideTooltip()"
+    >
+      <input 
+        type="checkbox" 
+        (change)="toggleMap($event)" 
+        [checked]="!isModernMap" 
+        [disabled]="isNationalityMode"
+      >
+      <span class="slider round" [class.disabled]="isNationalityMode"></span>
+    </label>
+    <span class="map-label">
+      {{ isModernMap ? 'Modern Map' : 'Map of 1900' }}
+    </span>
+  </div>
+
+<figure #mapContainer id="map" class="svg-container"></figure>
+<div id="tooltip" class="tooltip" style="display: none;"></div>

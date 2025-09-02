@@ -1,0 +1,19 @@
+<div class="barchart-container" #barChart>
+  <ng-container *ngIf="!isLoading">
+    <h1 *ngIf="!selectedArtists">Overview of techniques used by all {{ allArtists.length }} artists</h1>
+    <h1 *ngIf="selectedArtists && selectedArtists.length > 1 && selectedCluster && selectedCluster.length == selectedArtists.length">Overview of techniques used by artists of selected cluster</h1>
+    <h1 *ngIf="selectedArtists && selectedArtists.length > 1 && selectedCluster && selectedCluster.length > selectedArtists.length">Overview of techniques used by selected artists</h1>
+    <h1 *ngIf="selectedArtists && selectedArtists.length === 1">
+      Techniques used by {{ selectedArtists[0].firstname }} {{ selectedArtists[0].lastname }}
+    </h1>
+
+  </ng-container>
+      <figure class="svg-container"></figure>
+      <div id="tooltip" class="tooltip" style="display: none;"></div>
+
+
+  <!-- Display loading indicator if data is still loading -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="loading-spinner"></div>
+  </div>
+</div>

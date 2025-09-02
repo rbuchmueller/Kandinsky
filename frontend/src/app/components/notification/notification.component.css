@@ -1,0 +1,73 @@
+.notification {
+  padding: 10px;
+  border: 1px solid #e5aeff;
+  background-color: white;
+  border-radius: 5px;
+  position: absolute;
+  top: 50%; /* Vertical center */
+  left: 50%; /* Horizontal center */
+  transform: translate(-50%, -50%); /* Center the div */
+  z-index: 1000;
+  width: 50%; /* Adjust the width as needed */
+  max-width: 50%;
+  text-align: center;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for better visibility */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Align items to the center */
+  opacity: 0.96;
+}
+
+.header {
+ 
+  display: flex;
+  align-items: center; /* Vertically center title and close button */
+  justify-content: space-between; /* Distribute space between the title and close button */
+  position: relative; /* Position the close button relative to the header */
+  margin-bottom: 0.1vw;
+}
+
+.title {
+  padding-top:1%;
+  padding-bottom: 0.5%;
+  width: 95%; /* Make header take the full width of the notification */
+  font-size: 0.75vw;
+  font-weight: 750;
+  text-align: center; /* Ensure the title remains centered */
+}
+.smallTitle {
+  padding-top:1%;
+  padding-bottom: 2%;
+  width: 95%; /* Make header take the full width of the notification */
+  font-size: 0.65vw;
+  font-weight: 600;
+  text-align: center; /* Ensure the title remains centered */
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  position: absolute; /* Allows precise positioning */
+  top: -0.5vw; /* Adjust this value to move the button vertically */
+  right: -0.2vw; /* Adjust this value to move the button horizontally */
+  font-size: 2vw;
+  font-weight: bold;
+  color: #e5aeff;
+  cursor: pointer;
+  opacity: 0.96;
+}
+
+.msg {
+  padding-left: 2%;
+  padding-right: 2%;
+  width: 92%; /* Make header take the full width of the notification */
+  position: relative;
+  text-align: center; /* Center-align the message */
+  padding-bottom: 2%;
+  opacity: 0.9;
+}
+
+.close-btn:hover {
+  color: #7e24c7;
+  opacity: 0.96;
+}

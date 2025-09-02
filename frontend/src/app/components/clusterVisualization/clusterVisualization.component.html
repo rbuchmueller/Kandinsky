@@ -1,0 +1,72 @@
+<div class="matrix-container" #matrix>
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="loading-spinner"></div>
+  </div>
+  <!-- Notification component -->
+  <app-notification
+    [message]="aiResponse"
+    *ngIf="aiResponse"
+    [title]="aiTitle"
+    [smallTitle]="aiSmallTitle"
+    (closeNotification)="closeNotification()"
+  ></app-notification>
+
+
+  <!-- Flex container for title and button with label -->
+  <div class="header-container">
+    <h1 class="title">{{ getTitle() }}</h1>
+    
+    <!-- Add the search bar container -->
+    <div class="search-bar-container">
+      <div class="input-wrapper">
+        <input
+          type="text"
+          id="artistSearch"
+          [(ngModel)]="searchQuery"
+          (input)="onArtistSearch()"
+          placeholder="Search for an artist..."
+          class="artist-search"
+        />
+        <!-- Cross (clear) button -->
+        <button 
+          *ngIf="searchQuery" 
+          class="clear-button" 
+          (click)="clearSearch()"
+          aria-label="Clear search input">
+          &times;
+        </button>
+      </div>
+      
+      <ul *ngIf="filteredArtists.length > 0" class="autocomplete-list">
+        <li *ngFor="let artist of filteredArtists" (click)="selectArtist(artist)">
+          {{ artist.name }}
+        </li>
+      </ul>
+    
+      <div *ngIf="notInCurrentRange && searchedArtist !== null" class="info-text">
+        Artist you are searching for is currently not displayed in the cluster. Change the range to {{ searchedArtist.artworks }}.
+      </div>
+    </div>
+    
+    
+    <div class="ai-suggestion-container" [ngStyle]="{'opacity': selectedNodes.length > 0  || this.selectedClusterNode? '1' : '0' }">
+      <div class="ai-title">AI suggestion on connections</div>
+      <div 
+        class="ai-button" 
+        *ngIf="!aiLoading"
+        (click)="handleButtonClick()" 
+        [ngStyle]="{'visibility': selectedNodes.length > 0 || this.selectedClusterNode? 'visible' : 'hidden'}"
+        [style.cursor]="'pointer'"
+        [ngClass]="{'visible': selectedNodes.length > 0 || selectedClusterNode, 'pulse': isPulsing}" 
+
+      >✧</div>
+      <div *ngIf="aiLoading" class="ai-loading-spinner"></div>
+
+    </div>
+  </div>
+
+
+  <figure class="matrix-svg-container"></figure>
+  <div id="tooltip" class="tooltip" style="display: none;"></div>
+
+</div>
