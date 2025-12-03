@@ -1,7 +1,5 @@
 # Kandinsky: Visual Analytics for the Avant-Garde - Code Repository
 
-
-## Final Dashboard (Used in Thesis)
 _(Click to enlarge)_  
 [![Click to enlarge](https://github.com/user-attachments/assets/d8463bef-2e05-421f-b4c0-d55e64cce301)]([https://github.com/user-attachments/assets/d9a7db17-ed59-4b67-8533-edf1ffd4933f](https://github.com/user-attachments/assets/d8463bef-2e05-421f-b4c0-d55e64cce301))
 
