@@ -1,15 +1,10 @@
-# Visualizing the Avant-Garde: Data-Driven Insights into Artist Connections
+# Kandinsky: Visual Analytics for the Avant-Garde - Code Repository
 
-> This project originated as part of my Bachelor studies under the working title “Exploring Avant-Garde: Visualizing Clusters of Exhibited Artists” and was further developed and refined in collaboration with the Department of Art History at TU Wien. It enables art historians to explore relationships between co-exhibited artists and examine meaningful clusters through interactive visualizations and analytical components provided in the dashboard.
->
-> Special thanks to my supervisor, Raphael Buchmüller, for his valuable input on design decisions and overall project direction.
 
 ## Final Dashboard (Used in Thesis)
 _(Click to enlarge)_  
 [![Click to enlarge](https://github.com/user-attachments/assets/d8463bef-2e05-421f-b4c0-d55e64cce301)]([https://github.com/user-attachments/assets/d9a7db17-ed59-4b67-8533-edf1ffd4933f](https://github.com/user-attachments/assets/d8463bef-2e05-421f-b4c0-d55e64cce301))
 
-For a structured overview of the project, including motivation, visualization techniques, and final evaluation, see the [final colloquium slides (PDF)](docs/colloquium_slides.pdf).
-You can also view the [earlier milestone presentation slides (PDF)](docs/early_project_presentation.pdf), which show the dashboard and project state at the end of my official project, before further refinement for the final thesis.
 
 ## Tech Stack
 
