@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata below."
+title: "Kandinsky: Visual Analytics for the Avant-Garde"
+type: software
+authors:
+  - family-names: "Buchmüller"
+    given-names: "Raphael"
+repository-code: "https://github.com/rbuchmueller/Kandinsky"
+license: MIT
