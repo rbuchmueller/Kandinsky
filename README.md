@@ -75,4 +75,6 @@ The `.env` file contains essential configuration details required to run the pro
    npm start
     ```
 3. Open your web browser and navigate to http://localhost:4200 to access the website.
-
+   
+## Licencing
+Kandinsky is released under the MIT License. You are free to use, modify, and distribute the software in accordance with the terms of this license.
