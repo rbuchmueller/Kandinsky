@@ -10,7 +10,7 @@ import * as d3 from 'd3';
 })
 
 export class ArtistService {
-  private dataUrl = 'http://localhost:3000'
+  private dataUrl = '/api'
 
 
 

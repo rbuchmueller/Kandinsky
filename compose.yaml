@@ -1,0 +1,90 @@
+name: kandinsky
+
+services:
+  dataset:
+    image: alpine:3.20
+    entrypoint: ["/bin/sh", "/scripts/fetch-dataset.sh"]
+    environment:
+      DATASET_URL: https://zenodo.org/records/22933343/files/artvis-db.dump?download=1
+      DATASET_MD5: 6f80deaee39b326466b6279841d2f498
+    volumes:
+      - dataset-download:/downloads
+      - ./database/fetch-dataset.sh:/scripts/fetch-dataset.sh:ro
+    restart: "no"
+
+  neo4j-init:
+    image: neo4j:4.4.5
+    entrypoint: ["/bin/bash", "/scripts/import-database.sh"]
+    environment:
+      DATASET_MD5: 6f80deaee39b326466b6279841d2f498
+      NEO4J_dbms_default__database: neo4j
+    volumes:
+      - dataset-download:/downloads:ro
+      - neo4j-data:/data
+      - ./database/import-database.sh:/scripts/import-database.sh:ro
+    depends_on:
+      dataset:
+        condition: service_completed_successfully
+    restart: "no"
+
+  neo4j:
+    image: neo4j:4.4.5
+    environment:
+      NEO4J_AUTH: neo4j/${NEO4J_PASSWORD:?Copy .env.example to .env and set NEO4J_PASSWORD}
+      NEO4J_PASSWORD: ${NEO4J_PASSWORD:?Copy .env.example to .env and set NEO4J_PASSWORD}
+      NEO4J_dbms_default__database: neo4j
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - neo4j-data:/data
+    depends_on:
+      neo4j-init:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD-SHELL", "cypher-shell -u neo4j -p \"$$NEO4J_PASSWORD\" 'RETURN 1' >/dev/null 2>&1"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+    environment:
+      PORT: "3000"
+      url: bolt://neo4j:7687
+      db_username: neo4j
+      db_password: ${NEO4J_PASSWORD:?Copy .env.example to .env and set NEO4J_PASSWORD}
+      database: neo4j
+      API_KEY: ${GEMINI_API_KEY:-}
+    depends_on:
+      neo4j:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/health').then(r => { if (!r.ok) process.exit(1) }).catch(() => process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1/"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+
+volumes:
+  dataset-download:
+  neo4j-data:

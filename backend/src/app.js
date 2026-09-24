@@ -27,6 +27,26 @@ app.use(cors({
 }));
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.get('/health', async (req, res) => {
+  const { driver } = require('./db')
+  const session = driver.session({ database: process.env.database })
+
+  try {
+    const result = await session.run('MATCH (n) RETURN count(n) AS count')
+    const records = result.records[0].get('count')
+
+    if (records < 1) {
+      return res.status(503).json({ status: 'error', message: 'Neo4j contains no records' })
+    }
+
+    return res.json({ status: 'ok', records })
+  } catch (error) {
+    console.error('Health check failed:', error)
+    return res.status(503).json({ status: 'error', message: 'Neo4j is unavailable' })
+  } finally {
+    await session.close()
+  }
+})
 app.use('/artist/', artist)
 app.use('/exhibition/', exhibition)
 app.use('/ai/', generativeAI);

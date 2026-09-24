@@ -1,80 +1,98 @@
-# Kandinsky: Visual Analytics for the Avant-Garde - Code Repository
+# Kandinsky: Visual Analytics for the Avant-Garde
+
+Kandinsky is a visual analytics application for exploring avant-garde artists and exhibitions. It consists of an Angular frontend, a Node/Express API, and a Neo4j database.
 
 _(Click to enlarge)_  
-[![Click to enlarge](https://github.com/user-attachments/assets/d8463bef-2e05-421f-b4c0-d55e64cce301)]([https://github.com/user-attachments/assets/d9a7db17-ed59-4b67-8533-edf1ffd4933f](https://github.com/user-attachments/assets/d8463bef-2e05-421f-b4c0-d55e64cce301))
+[![Kandinsky interface](https://github.com/user-attachments/assets/d8463bef-2e05-421f-b4c0-d55e64cce301)](https://github.com/user-attachments/assets/d8463bef-2e05-421f-b4c0-d55e64cce301)
 
+## Quick start with Docker Compose
 
-## Tech Stack
+Requirements:
 
-- **Frontend**: Angular, Typescript, HTML, CSS, D3.js
-- **Backend**: Javascript, Node.js, Express.js
-- **Database**: Neo4j (via Cypher)
-  - Python was used for one-time data preparation, enrichment, and database population. These scripts are not required to run the project and are therefore not included in this repository.
+- Docker Engine or Docker Desktop with Docker Compose v2
+- Approximately 1 GB of free disk space for images, the downloaded dump, and the imported database
+- Network access to Zenodo on the first start
 
+Create a local environment file and replace the placeholder with a strong password:
 
-- **Deployment**: Local
+```bash
+cp .env.example .env
+```
 
-## Setup Instructions
+On Windows PowerShell, use `Copy-Item .env.example .env` instead. Then start the complete application:
 
-This guide provides step-by-step instructions for setting up and running the project.
+```bash
+docker compose up --build
+```
 
-### 1. Install Node.js
-1. Download and install Node.js from the [official website](https://nodejs.org/en/download/).
-2. Follow the installation instructions for your operating system.
+Open <http://localhost:4200>. The Neo4j Browser is available at <http://localhost:7474> when direct database inspection is needed.
 
-### 2. Install Angular CLI
-1. Open a command prompt or terminal.
-2. Run the following command to install Angular CLI:
-   ```bash
-   npm install -g @angular/cli@17
-    ```
+To verify the frontend proxy, API, and imported database together, request:
 
-### 3. Install Neo4j Desktop
-1. Download and install Neo4j Desktop (version 1.5.X) from the [official website](https://neo4j.com/deployment-center/#desktop).
-2. Open Neo4j Desktop and create a new project.
-3. Click on the project and select "Reveal files in explorer" to open the project folder.
-4. Copy the `artvis-db.dump` file from the `database` folder into the revealed folder.
-5. In Neo4j Desktop, ensure the `artvis-db.dump` file is visible.
-6. Click on the three dots (options) next to the `artvis-db.dump` file and choose "Create new DBMS from dump".
-7. Configure the new DBMS with the following settings:
-   - **Name**: `artvis-db`
-   - **Password**: `24032102`
-   - **Version**: `4.4.5`
-8. Run the database by clicking the play button.
+```bash
+curl http://localhost:4200/api/health
+```
 
-### 4. Install Required npm Modules
-#### Frontend
-1. Open a terminal and navigate to the `frontend` folder.
-2. Run the following command to install the necessary npm modules:
-   ```bash
-   npm install
-    ```
-#### Backend
-1. Open a terminal and navigate to the backend folder.
-2. Run the following command to install the necessary npm module
-    ```bash
-   npm install
-     ```
+A healthy response has the form `{"status":"ok","records":123}` with a positive record count.
 
-### 5. Obtain the `.env` File
-The `.env` file contains essential configuration details required to run the project (e.g., API keys, sensitive environment variables). This file is **not included** in the repository for security reasons.
+On the first run, Compose downloads `artvis-db.dump` from the published Zenodo record, verifies MD5 `6f80deaee39b326466b6279841d2f498`, and imports it with Neo4j **4.4.5** before the API starts. The dump and imported database are stored in named Docker volumes and are reused on subsequent starts. The 382 MB dump is never added to Git.
 
-1. **Request the `.env` File:**
-   - To obtain the `.env` file, please contact me directly at luisamueller02@web.de.
+The optional Gemini-backed feature requires a key. Set `GEMINI_API_KEY` only in the untracked `.env` file; the rest of the application runs without it.
 
-2. **Add the `.env` File:**
-   - Once you receive the file, place the received `.env` file into the `backend` folder.
+## Stop, restart, and reset
 
-## How to Run the Project after Setup
+Stop the containers while retaining the downloaded dump and database:
 
-1. Open two terminals:
-   - One in the `frontend` folder.
-   - One in the `backend` folder.
-2. In both terminals run:
-   ```bash
-   npm start
-    ```
-3. Open your web browser and navigate to http://localhost:4200 to access the website.
-   
-## Licencing
-Kandinsky is released under the MIT License. You are free to use, modify, and distribute the software in accordance with the terms of this license.
+```bash
+docker compose down
+```
+
+Start again with `docker compose up --build`; the verified persistent data will be reused.
+
+To perform a destructive clean reset, including the downloaded dump and imported Neo4j data:
+
+```bash
+docker compose down --volumes
+```
+
+The next `docker compose up --build` downloads and imports the dataset again.
+
+## Services
+
+- `frontend`: production Angular build served by Nginx at port 4200; `/api` requests are proxied internally to the backend.
+- `backend`: Node/Express API connected to `bolt://neo4j:7687` through the Compose network.
+- `neo4j`: Neo4j 4.4.5 with persistent storage.
+- `dataset` and `neo4j-init`: one-shot first-start download, checksum verification, and import steps.
+
+## Dataset and attribution
+
+The application uses the published Kandinsky dataset:
+
+- Dataset DOI: [10.5281/zenodo.22933343](https://doi.org/10.5281/zenodo.22933343)
+- File: `artvis-db.dump`
+- MD5: `6f80deaee39b326466b6279841d2f498`
+- Dataset license: **Creative Commons Attribution 4.0 International (CC BY 4.0)**
+
+The dataset is based on DoME: Bartosch et al. (2020), [https://doi.org/10.4324/9780429505188-36](https://doi.org/10.4324/9780429505188-36).
+
+## Software license and citation
+
+The repository software is licensed separately under the [MIT License](LICENSE). The dataset's CC BY 4.0 license applies to the published dataset, not to the software source code.
+
+Citation metadata for the software is provided in [`CITATION.cff`](CITATION.cff). No software DOI is asserted here; the dataset DOI above identifies only the dataset.
+
+## Local development without containers
+
+Install dependencies and build each application with the lockfiles:
+
+```bash
+cd frontend
+npm ci
+npm run build
+
+cd ../backend
+npm ci
+npm run build
+```
+
+For local development, configure the backend environment variables used in `backend/src/db.js`: `PORT`, `url`, `db_username`, `db_password`, `database`, and optionally `API_KEY`.

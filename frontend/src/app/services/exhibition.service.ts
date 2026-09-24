@@ -7,7 +7,7 @@ import { Exhibition } from '../models/exhibition';
 })
 
 export class ExhibitionService {
-  private dataUrl = 'http://localhost:3000'
+  private dataUrl = '/api'
 
 
 

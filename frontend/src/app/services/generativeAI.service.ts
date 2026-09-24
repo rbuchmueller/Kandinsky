@@ -8,7 +8,7 @@ import { shareReplay } from 'rxjs/operators';
 })
 export class GenerativeAIService {
 
-  private dataUrl = 'http://localhost:3000';  // Ensure this is the correct URL for your backend
+  private dataUrl = '/api';
 
   constructor(private http: HttpClient) { }
 
